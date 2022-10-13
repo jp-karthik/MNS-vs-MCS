@@ -75,7 +75,9 @@ void performMNS(vector<int>& ordering) {
                         MNSsets[neighbour].insert(ordering.size());
                     }
                 } 
+                // explore
                 performMNS(ordering);
+                //backtrack
                 for (int neighbour : adjList[i]) {
                     if (!isVisited[neighbour]) {
                         MNSsets[neighbour].erase(ordering.size());
@@ -104,7 +106,9 @@ void performMCS(vector<int>& ordering) {
                         MCSsets[neighbour].insert(ordering.size());
                     }
                 } 
+                // explore
                 performMCS(ordering);
+                // backtrack
                 for (int neighbour : adjList[i]) {
                     if (!isVisited[neighbour]) {
                         MCSsets[neighbour].erase(ordering.size());
