@@ -1,7 +1,6 @@
 // header files
 #include<iostream>
 #include<algorithm>
-#include<math.h>
 #include<vector>
 #include<set>
 
@@ -9,6 +8,7 @@ using namespace std;
 
 static int V; // # of vertices
 static int E; // # of edges 
+int CIG = 0;
 
 // adjacancy list 
 vector<vector<int>> adjList;
@@ -27,7 +27,8 @@ vector<vector<int>> MCS_orderings;
 // checking whether the set associated with the vertex is maximal under set inclusion (for MNS)
 bool isSetMaximal(int u) {
     bool isMaximal = true;
-    for (int i = 0; i < V && i != u; i++) {
+    for (int i = 0; i < V; i++) {
+        if (i == u) continue;
         if (!isVisited[i]) {
             if (MNSsets[u].size() == MNSsets[i].size()) continue;
             bool isSubset = true;
@@ -121,7 +122,7 @@ void performMCS(vector<int>& ordering) {
     }    
 }
 
-int main() {
+void performForEachGraph() {
     cin >> V >> E;
     adjList.resize(V);
 
@@ -129,8 +130,8 @@ int main() {
     isVisited.resize(V, false);
 
     // initialize each set correspoding to a set to a null set
-    MCSsets.resize(V, {}); 
-    MNSsets.resize(V, {});
+    MNSsets.resize(V, {}); 
+    MCSsets.resize(V, {});
 
     for (int i = 0; i < E; i++) {
         int u, v;
@@ -159,8 +160,60 @@ int main() {
         MCSsets[startVertex].erase(V + 1);
     }
 
-    cout << "# of valid MNS ordering is : " << MNS_orderings.size() << endl;
-    cout << "# of valid MCS ordering is : " << MCS_orderings.size() << endl;
+    int MNSc = MNS_orderings.size();
+    int MCSc = MCS_orderings.size();
+    
+    if (MNSc != MCSc) {
+        CIG++;
+        cout << "Graph : " << endl;
+        for (int i = 0; i < V; i++) {
+            for (auto e : adjList[i]) cout << e << " ";
+            cout << endl;
+        }
+        cout << endl;
+        cout << "Contraciction ordering : " << endl;
+        for (auto MNSorder : MNS_orderings) {
+            bool isNotMCS = true;
+            for (auto MCSorder : MCS_orderings) {
+                if (MNSorder == MCSorder) {
+                    isNotMCS = false;
+                    break;
+                }
+            }
+            if (isNotMCS) {
+                for (auto e : MNSorder) cout << e << " ";
+                cout << endl;
+                break;
+            }
+        }
+        cout << endl;
+        cout << "# of valid MNS ordering is : " << MNS_orderings.size() << endl;
+        cout << "# of valid MCS ordering is : " << MCS_orderings.size() << endl;
+        cout << endl;
+        cout << endl;
+    }
 
+    adjList.clear();
+    MNSsets.clear();
+    MCSsets.clear();
+    MNS_orderings.clear();
+    MCS_orderings.clear();
+}
+int main() {
+
+    #ifndef ONLINE_JUDGE
+    // For getting input from input.txt file
+    freopen("graph.txt", "r", stdin);
+    // Printing the Output to output.txt file
+    freopen("output.txt", "w", stdout);
+    #endif
+
+    static int count = 0;
+    cin >> count;
+
+    for (int i = 0; i < count; i++) {
+        performForEachGraph();
+    }
+    cout << "CIG : " << CIG << endl;
     return 0;
 }
