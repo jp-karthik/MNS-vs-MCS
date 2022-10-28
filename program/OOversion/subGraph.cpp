@@ -22,7 +22,7 @@ bool isInteresting(int V, int E, vector<pair<int,int>>& edges) {
 
 // taking in a graph and return true if there is no Interesting vertex induced subgraph
 bool allSubgraph(int V, int E, vector<pair<int,int>>& edges) {
-    bool valid = true;
+    bool valid = false;
     for (int i = 0; i < V; i++) {
         // i is not there
         int cnt = 0;
@@ -39,7 +39,7 @@ bool allSubgraph(int V, int E, vector<pair<int,int>>& edges) {
         }
         bool isIG = isInteresting(V - 1, newEdges.size(), newEdges);
         if (isIG) {
-            valid = false;
+            valid = true;
             break;
         }
     }
@@ -47,7 +47,7 @@ bool allSubgraph(int V, int E, vector<pair<int,int>>& edges) {
 }
 
 int main() {
-    char inputFile[20] = "v6/NIGv6.txt";
+    char inputFile[20] = "v8/IGv8.txt";
 
     #ifndef ONLINE_JUDGE
     // For getting input from input.txt file
@@ -72,12 +72,11 @@ int main() {
         }
         if (!allSubgraph(V, E, edges)) {
             // H6 is not interesting and there is a H5 which is interesting
-            cout << "Yeah, there is NIG6 which VI IG5" << endl;
+            cout << "Yeah, there is IG7 which has no VI IG6" << endl;
             cout << V << " " << E << endl;
             for (auto e : edges) cout << e.first << " " << e.second << endl;
             cout << endl;
             IG++;
-           
         } 
 
         cout << endl;
