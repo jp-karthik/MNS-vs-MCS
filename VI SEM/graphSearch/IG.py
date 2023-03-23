@@ -11,7 +11,7 @@ def isInteresting(V:int, E:int, edges:list) -> bool:
     mcs.performAllPossible() # perform MCS algorithm to get all possible orderings
     
     # if the number of orderings of MNS and MCS are equal, then the graph is not interesting
-    if mns.getSize() is mcs.getSize():
+    if mns.getSize() == mcs.getSize(): # using is not working, instead use ==
         return False
     else:
         return True
