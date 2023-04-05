@@ -2,7 +2,7 @@ import networkx as nx
 import sys
 filepath = sys.argv[1]
 
-fp = open("graph.txt", "w")
+fp = open("graph8.txt", "w")
 
 setG = nx.read_graph6(filepath)
 

@@ -26,7 +26,7 @@ def getInput(filename):
                 t[0], t[1] = int(t[0]), int(t[1])
                 edges.append(t)
             
-            if E == V-1:
+            if E > V-1 and IG.isInteresting(V, E, edges) == True:
                 print(edges)
                 print("idx: ", i)
                 cnt += 1
